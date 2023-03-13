@@ -15,10 +15,21 @@ namespace FilmesApi.Services
             _mapper = mapper;
         }
 
-        public void Alterar(Filme obj)
+        public void Alterar(int id, UpdateFilmeDto obj)
+        {
+            var filme = _filmeRepository.BuscarPorId(id);
+
+            _mapper.Map(obj, filme);
+
+            filme.Id = id;
+
+            _filmeRepository.Alterar(filme);
+        }
+
+        public void AlterarByPatch(Filme obj)
         {
             _filmeRepository.Alterar(obj);
-        }
+        }      
 
         public Filme BuscarPorId(int id)
         {
@@ -30,9 +41,11 @@ namespace FilmesApi.Services
             return _filmeRepository.BuscarTodos();
         }
 
-        public void Excluir(Filme obj)
+        public void Excluir(int id)
         {
-            _filmeRepository.Excluir(obj);
+            var filme = _filmeRepository.BuscarPorId(id);
+
+            _filmeRepository.Excluir(filme);
         }
 
         public void Incluir(CreateFilmeDto obj)

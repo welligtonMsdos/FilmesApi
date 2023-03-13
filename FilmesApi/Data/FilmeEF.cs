@@ -12,14 +12,20 @@ public class FilmeEF: IFilmeRepository
     }
 
     public void Alterar(Filme obj)
-    {
-        _context.filmes.Update(obj);
-        _context.SaveChanges();
+    {       
+        _context.SaveChanges();       
     }
 
     public Filme BuscarPorId(int id)
     {
-        return _context.filmes.First(x => x.Id == id);
+        try
+        {
+            return _context.filmes.First(x => x.Id == id);
+        }
+        catch (Exception)
+        {
+            throw new Exception("Id não encontrado");
+        }        
     }
 
     public IEnumerable<Filme> BuscarTodos()
